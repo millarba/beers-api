@@ -5,12 +5,16 @@ class Api::V2::BeersController < ApplicationController
   end
 
   def create
-    @beer = Beer.create(
+    @beer = Beer.new(
                         name: params[:name],
                         style: params[:style],
                         ibu: params[:ibu],
                         alcohol: params[:alcohol])
-    render :show
+    if @beer.save
+      render :show
+    else
+      render json: @beer.errors.full_messages, status: 422
+    end
   end
 
   def update
