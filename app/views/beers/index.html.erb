@@ -3,20 +3,58 @@
 <div ng-app="app">
   {{ 2 + 2 }}
   <div ng-controller="beerCtrl" ng-init="setup()">
-    <div ng-repeat="beer in beers">
-      <h3 ng-click="toggleInfo(beer)">{{ beer.name }}</h3>
-      <ul>
-        <li ng-if="beer.visible">{{ beer.style }}</li>
-        <li ng-if="beer.visible">{{ beer.alcohol }}</li>
-        <li ng-if="beer.visible">{{ beer.ibu }}</li>
-      </ul>
-    </div>
+
+  <datalist id="names">
+    <option ng-repeat="beer in beers">{{ beer.name }}</option>
+  </datalist>
+
+  <h3>Total beers: {{ beers.length }}</h3>
+  <div>
+    Search by Style:<input type="text" ng-model="styleFilter" list="names">
+  </div>
+  <table style="width:100%">
+    <tr>
+      <th ng-click="toggleOrderAttribute('name')">Name</th>
+      <th ng-click="toggleOrderAttribute('style')">Style</th>
+      <th ng-click="toggleOrderAttribute('alcohol')">Alcohol Content</th>
+      <th ng-click="toggleOrderAttribute('ibu')">IBU</th>
+      <th> </th>
+    </tr>
+    <tr>
+      <th> {{  orderArrow('name')}}</th> 
+      <th> {{  orderArrow('style')}}</th> 
+      <th> {{  orderArrow('alcohol')}}</th> 
+      <th> {{  orderArrow('ibu')}}</th> 
+      <th> </th>
+    </tr>
+    <tr>
+      <th></th>
+    </tr>
+      <tr ng-repeat="beer in beers | filter: {name: styleFilter} | orderBy:orderAttribute: descending">
+        <div >
+          <td>{{ beer.name }}</td>
+          <td>{{ beer.style }}</td>
+          <td>{{ beer.alcohol }}</td>
+          <td>{{ beer.ibu }}</td>
+          <td><button ng-click="removeBeer(beer)">Delete</button></td>
+        </div>
+      </tr>
+  </table>
+    <div id="add">
     <h2>Add a beer:</h2>
     <li ng-repeat="error in errors">{{ error }}</li>
-    Name: <input type="text", ng-model="newBeerName">
-    Style: <input type="text", ng-model="newBeerStyle">
-    Alcohol: <input type="text", ng-model="newBeerAlcohol">
+    Name: <input type="text", ng-model="newBeerName"><br>
+    Style: <input type="text", ng-model="newBeerStyle"><br>
+    Alcohol: <input type="text", ng-model="newBeerAlcohol"><br>
     IBU: <input type="text", ng-model="newBeerIbu">
     <button ng-click="addBeer(newBeerName, newBeerStyle, newBeerAlcohol, newBeerIbu)">Add Beer</button>
+    </div>
   </div>
 </div>
+<!--       <h3 ng-click="toggleInfo(beer)">{{ beer.name }}</h3>
+      <ul>
+        <li ng-if="beer.visible">{{ beer.style }}</li>
+        <li ng-if="beer.visible">{{ beer.alcohol}}</li>
+        <li ng-if="beer.visible">{{ beer.ibu }}</li>
+        <button ng-if="beer.visible" ng-click="removeBeer(beer)">Delete</button>
+      </ul> -->

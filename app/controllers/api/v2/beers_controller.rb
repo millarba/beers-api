@@ -37,6 +37,8 @@ class Api::V2::BeersController < ApplicationController
   def destroy
     @beer = Beer.find(params[:id])
     @beer.destroy
+    @beers = Beer.all
+    render :index
 
   end
 

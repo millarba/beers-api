@@ -5,7 +5,13 @@
     $scope.setup = function() {
       $http.get('/api/v2/beers.json').then(function(response) {
         $scope.beers = response.data;
-      })
+      });
+    };
+
+    function getBeers() {
+      $http.get('/api/v2/beers.json').then(function(response) {
+        $scope.beers = response.data;
+      });
     };
 
     $scope.toggleInfo = function(beer) {
@@ -32,7 +38,34 @@
       });
     }; 
 
+    $scope.removeBeer = function(beer) {
+      var beerId = beer.id;
+      $http.delete('/api/v2/beers/' + beerId.toString(), {headers: {"Accept": "application/json"}}).then(function(response) {
+        $scope.beers = response.data;
+      });
+    };
 
+    $scope.toggleOrderAttribute = function(attribute) {
+      if ($scope.orderAttribute === attribute) {
+        $scope.descending = true;
+      } else {
+        $scope.descending = false;
+      }
+      $scope.orderAttribute = attribute;
+    };
+
+    $scope.orderArrow = function(attribute) {
+      if (attribute === $scope.orderAttribute) {
+        if ($scope.descending) {
+          return "^";
+        } else {
+          return "v";
+        }
+      } else {
+        return null;
+      }
+
+    };
 
 
   });
