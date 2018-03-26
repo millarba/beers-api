@@ -3,7 +3,7 @@
 <div ng-app="app">
   {{ 2 + 2 }}
   <div ng-controller="beerCtrl" ng-init="setup()">
-
+  {{ message }}
   <datalist id="names">
     <option ng-repeat="beer in beers">{{ beer.name }}</option>
   </datalist>
@@ -27,6 +27,7 @@
       <th> {{  orderArrow('ibu')}}</th> 
       <th> </th>
     </tr>
+    
     <tr>
       <th></th>
     </tr>

@@ -2,6 +2,7 @@
   "use strict";
 
   angular.module("app").controller("beerCtrl", function($scope, $http){
+    $scope.message = "Hello there";
     $scope.setup = function() {
       $http.get('/api/v2/beers.json').then(function(response) {
         $scope.beers = response.data;
@@ -17,7 +18,6 @@
     $scope.toggleInfo = function(beer) {
       beer.visible = !beer.visible;
     };
-
 
     $scope.addBeer = function(newBeerName, newBeerStyle, newBeerAlcohol, newBeerIbu) {
       var beer = {
